@@ -23,22 +23,27 @@
 #include <ArduinoRS485.h>
 
 void setup() {
-  Serial.begin(9600);
-  RS485.begin(9600);
+  Serial.begin(19200);
+  RS485.begin(19200);
 
   // enable transmission, can be disabled with: RS485.endTransmission();
-  RS485.beginTransmission();
+  //RS485.beginTransmission();
 
   // enable reception, can be disabled with: RS485.noReceive();
-  RS485.receive();
+  //RS485.receive();
 }
 
 void loop() {
-  if (Serial.available()) {
-    RS485.write(Serial.read());
-  }
+    if (Serial.available()) {
+        RS485.beginTransmission();
+        RS485.write(Serial.read());
+        RS485.endTransmission();
+    }
 
-  if (RS485.available()) {
-    Serial.write(RS485.read());
-  }
+    if (RS485.available()) {
+        Serial.write(RS485.read());
+    }
+
+    //delay(300);
+    //Serial.println("Test");
 }
